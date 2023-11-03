@@ -1,5 +1,6 @@
-package com.phonecompany.billing.service.impl;
+package com.phonecompany.billing;
 
+import com.phonecompany.billing.TelephoneBillCalculatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

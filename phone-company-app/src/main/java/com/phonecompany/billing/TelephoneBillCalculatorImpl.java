@@ -1,6 +1,4 @@
-package com.phonecompany.billing.service.impl;
-
-import com.phonecompany.billing.service.TelephoneBillCalculator;
+package com.phonecompany.billing;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -19,7 +17,7 @@ public class TelephoneBillCalculatorImpl implements TelephoneBillCalculator {
         BigDecimal total_cost = telephoneBillCalculator.calculate("420774577453,13-01-2020 18:10:15,13-01-2020 18:12:57\n" +
                 "420776562353,18-01-2020 08:59:20,18-01-2020 09:10:00\n" + "420774577453,13-01-2020 18:10:15,13-01-2020 18:12:57\n" +
                 "420779562353,18-01-2020 07:59:20,18-01-2020 08:10:00");
-        System.out.println(total_cost);
+        System.out.println("Total cost is: " +total_cost + " Kč");
     }
 
     @Override
@@ -43,7 +41,6 @@ public class TelephoneBillCalculatorImpl implements TelephoneBillCalculator {
                 if (minutes == 0) minutes = 1; // Charge for at least one minute
 
                 BigDecimal callCost = calculateCallCost(start, end, minutes);
-                System.out.println("callNumber: " + phoneNumber + ", cost: " + callCost);
                 totalCost = totalCost.add(callCost);
             } catch (ParseException exception) {
                 throw exception;
@@ -107,7 +104,6 @@ public class TelephoneBillCalculatorImpl implements TelephoneBillCalculator {
                 }
             }
         }
-        System.out.println("MostCalledNumber: " + mostCalledNumber + ", cost: " + cost);
         return cost;
     }
 

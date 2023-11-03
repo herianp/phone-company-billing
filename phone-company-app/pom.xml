@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.phonecompany</groupId>
-	<artifactId>billing</artifactId>
+	<artifactId>phone-company-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>billing</name>
 	<description>Project for INBRAIT, s.r.o.</description>
