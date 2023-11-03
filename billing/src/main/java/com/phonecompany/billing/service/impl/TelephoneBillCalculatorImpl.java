@@ -28,12 +28,12 @@ public class TelephoneBillCalculatorImpl implements TelephoneBillCalculator {
         Map<String, Integer> callCounts = new HashMap<>();
         BigDecimal totalCost = BigDecimal.ZERO;
 
+        phoneNumberValidation(call_list);
+
         for (String call : call_list) {
             String[] details = call.split(",");
-            String number = details[0];
-
-            callCounts.put(number, callCounts.getOrDefault(number, 0) + 1);
-
+            String phoneNumber = details[0];
+            callCounts.put(phoneNumber, callCounts.getOrDefault(phoneNumber, 0) + 1);
             try {
                 Date start = DATE_FORMAT.parse(details[1]);
                 Date end = DATE_FORMAT.parse(details[2]);
@@ -43,24 +43,33 @@ public class TelephoneBillCalculatorImpl implements TelephoneBillCalculator {
                 if (minutes == 0) minutes = 1; // Charge for at least one minute
 
                 BigDecimal callCost = calculateCallCost(start, end, minutes);
-                System.out.println("callNumber: " + number + ", cost: " + callCost);
+                System.out.println("callNumber: " + phoneNumber + ", cost: " + callCost);
                 totalCost = totalCost.add(callCost);
             } catch (ParseException exception) {
                 throw exception;
             }
         }
 
-        String mostCalledNumber2 = Collections.max(callCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
         String mostCalledNumber = callCounts.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), Collections.max(callCounts.values()))) // Filtr pro maximální hodnotu
                 .map(Map.Entry::getKey)
-                .max(Comparator.naturalOrder()) // Přirozené řazení Stringů, které funguje pro čísla stejné délky
+                .max(Comparator.naturalOrder())
                 .orElse(null);
         if (callCounts.get(mostCalledNumber) >= 1) {
             totalCost = totalCost.subtract(calculateCostForMostCalledNumber(call_list, mostCalledNumber));
         }
 
         return totalCost;
+    }
+
+    public void phoneNumberValidation(String[] call_list) {
+        for (String call : call_list) {
+            String[] details = call.split(",");
+            String phoneNumber = details[0];
+            if (!phoneNumber.matches("420\\d{9}")) {
+                throw new RuntimeException("Phone number:" + phoneNumber + " is invalid!");
+            }
+        }
     }
 
     public BigDecimal calculateCallCost(Date start, Date end, long minutes) {

@@ -55,7 +55,7 @@ class TelephoneBillCalculatorImplTest {
             calendar.setTime(start);
             assertFalse(calculator.isStandardRate(calendar));
             // After 8:00
-            start = DATE_FORMAT.parse("13-01-2020 08:00:01");
+            start = DATE_FORMAT.parse("13-01-2020 08:00:00");
             calendar.setTime(start);
             assertTrue(calculator.isStandardRate(calendar));
             // Before 16:00
@@ -63,7 +63,7 @@ class TelephoneBillCalculatorImplTest {
             calendar.setTime(start);
             assertTrue(calculator.isStandardRate(calendar));
             // After 16:00
-            start = DATE_FORMAT.parse("13-01-2020 16:00:01");
+            start = DATE_FORMAT.parse("13-01-2020 16:00:00");
             calendar.setTime(start);
             assertFalse(calculator.isStandardRate(calendar));
         } catch (ParseException e) {
